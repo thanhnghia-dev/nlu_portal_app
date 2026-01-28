@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
+import 'package:nlu_portal_app/providers/auth_provider.dart';
+import 'package:nlu_portal_app/views/auth/login_screen.dart';
 import 'package:nlu_portal_app/views/widgets/navigation_widget.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,18 +23,25 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _initSplash() async {
     await Future.delayed(Duration.zero);
 
-    await precacheImage(
-      const AssetImage('assets/logo_nlu.png'),
-      context,
-    );
+    await precacheImage(const AssetImage('assets/logo_nlu.png'), context);
 
     await Future.delayed(const Duration(seconds: 1));
 
     if (!mounted) return;
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const NavigationMenu()),
-    );
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    if (authProvider.isAuth) {
+      // Đã đăng nhập → vào NavigationMenu
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const NavigationMenu()),
+      );
+    } else {
+      // Chưa đăng nhập → vào LoginScreen
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
+    }
   }
 
   @override
@@ -63,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Text(
                   'NLU',
                   style: TextStyle(
-                    color: Colors.yellowAccent,
+                    color: Colors.yellow,
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
                   ),
@@ -72,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Text(
                   'Portal',
                   style: TextStyle(
-                    color: Colors.yellowAccent,
+                    color: Colors.yellow,
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
                   ),

@@ -3,15 +3,14 @@ import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/views/home/exam_schedule_screen.dart';
 import 'package:nlu_portal_app/views/home/exam_score_screen.dart';
 
-class MenuScreen extends StatefulWidget {
-  const MenuScreen({super.key});
+class ExtensionsScreen extends StatefulWidget {
+  const ExtensionsScreen({super.key});
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState();
+  State<ExtensionsScreen> createState() => _ExtensionsScreenState();
 }
 
-class _MenuScreenState extends State<MenuScreen> {
-  
+class _ExtensionsScreenState extends State<ExtensionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,33 +30,29 @@ class _MenuScreenState extends State<MenuScreen> {
         child: Column(
           children: [
             _buildMenuItem(
-            icon: Icons.calendar_today_rounded,
-            title: 'Lịch thi',
-            onTap: () {
-              Navigator.of(context, rootNavigator: true).push(
-                MaterialPageRoute(
-                  builder: (_) => const ExamScheduleScreen(),
-                ),
-              );
-            },
-          ),
-          _buildMenuItem(
-            icon: Icons.score_rounded,
-            title: 'Điểm thi',
-            onTap: () {
-              Navigator.of(context, rootNavigator: true).push(
-                MaterialPageRoute(
-                  builder: (_) => const ExamScoreScreen(),
-                ),
-              );
-            },
-          ),
+              icon: Icons.calendar_today_rounded,
+              title: 'Lịch thi',
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(builder: (_) => const ExamScheduleScreen()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.score_rounded,
+              title: 'Điểm thi',
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(builder: (_) => const ExamScoreScreen()),
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
-  
+
   // Menu Items
   Widget _buildMenuItem({
     required IconData icon,

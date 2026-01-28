@@ -16,18 +16,17 @@ class AuthProvider with ChangeNotifier {
 
   /// LOGIN
   Future<void> login(String username, String password) async {
-    var dio = Dio();
-
-    FormData formData = FormData.fromMap({
-      "username": username,
-      "password": password,
-      "grant_type": "password"
-    });
+    final dio = Dio();
 
     try {
-      var response = await dio.post(
+      final response = await dio.post(
         '$baseUrl/auth/login',
-        data: formData,
+        data: {
+          'username': username,
+          'password': password,
+          'grant_type': 'password',
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType),
       );
 
       debugPrint("Status: ${response.statusCode}");
@@ -36,28 +35,23 @@ class AuthProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final data = response.data;
 
-        _token = data["access_token"];
-        _refreshToken = data["refresh_token"];
+        _token = data['access_token'];
+        _refreshToken = data['refresh_token'];
 
         if (_token == null) {
-          throw Exception("Không tìm thấy access_token trong response: $data");
+          throw Exception("Không tìm thấy access_token");
         }
 
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString("token", _token!);
+        await prefs.setString('access_token', _token!);
         if (_refreshToken != null) {
-          await prefs.setString("refresh_token", _refreshToken!);
+          await prefs.setString('refresh_token', _refreshToken!);
         }
 
         notifyListeners();
-      } else {
-        throw Exception("Login failed: ${response.statusMessage}");
       }
     } on DioException catch (e) {
       debugPrint("Dio error: ${e.response?.data ?? e.message}");
-      rethrow;
-    } catch (e) {
-      debugPrint("Other login error: $e");
       rethrow;
     }
   }
@@ -65,9 +59,9 @@ class AuthProvider with ChangeNotifier {
   /// AUTO LOGIN
   Future<void> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey("token")) return;
+    if (!prefs.containsKey("access_token")) return;
 
-    _token = prefs.getString("token");
+    _token = prefs.getString("access_token");
     _refreshToken = prefs.getString("refresh_token");
 
     notifyListeners();
@@ -91,7 +85,7 @@ class AuthProvider with ChangeNotifier {
     // Remove local token
     _token = null;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("token");
+    await prefs.remove("access_token");
 
     notifyListeners();
   }

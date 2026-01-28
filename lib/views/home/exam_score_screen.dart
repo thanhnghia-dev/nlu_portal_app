@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
+import 'package:nlu_portal_app/providers/semester_provider.dart';
 import 'package:nlu_portal_app/views/widgets/score_items_widget.dart';
+import 'package:provider/provider.dart';
 
 class ExamScoreScreen extends StatefulWidget {
   const ExamScoreScreen({super.key});
@@ -11,8 +13,13 @@ class ExamScoreScreen extends StatefulWidget {
 
 class _ExamScoreScreenState extends State<ExamScoreScreen> {
   String? selectedSemester;
-  final List<String> semesters = ['Học kỳ 1', 'Học kỳ 2'];
-  
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<SemesterProvider>(context, listen: false).loadSemesters();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,27 +38,41 @@ class _ExamScoreScreenState extends State<ExamScoreScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
-            child: DropdownButtonFormField(
-              value: selectedSemester,
-              items: semesters
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              onChanged: (val) {
-                setState(() {
-                  selectedSemester = val as String;
-                });
+            padding: const EdgeInsets.only(
+              top: 10,
+              bottom: 5,
+              left: 10,
+              right: 10,
+            ),
+            child: Consumer<SemesterProvider>(
+              builder: (context, provider, child) {
+                return DropdownButtonFormField(
+                  initialValue: selectedSemester,
+                  items: provider.semesters
+                      .map(
+                        (semester) => DropdownMenuItem(
+                          value: semester.name,
+                          child: Text(semester.name),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedSemester = val;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.arrow_drop_down_circle,
+                    color: AppColors.primary,
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: '---------------Chọn học kỳ----------------',
+                  ),
+                );
               },
-              icon: const Icon(
-                Icons.arrow_drop_down_circle,
-                color: AppColors.primary,
-              ),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: '---------------Chọn học kỳ----------------',
-              ),
             ),
           ),
           ScoreItemsWidget(),

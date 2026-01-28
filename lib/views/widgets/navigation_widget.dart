@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/views/home/home_screen.dart';
-import 'package:nlu_portal_app/views/home/menu_screen.dart';
+import 'package:nlu_portal_app/views/home/extensions_screen.dart';
 import 'package:nlu_portal_app/views/profile/account_screen.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -16,7 +16,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
 
   // Each tab has its own NavigatorKey
   final List<GlobalKey<NavigatorState>> _navigatorKeys = List.generate(
-      4, (index) => GlobalKey<NavigatorState>());
+    4,
+    (index) => GlobalKey<NavigatorState>(),
+  );
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,9 +33,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       child: Navigator(
         key: _navigatorKeys[index],
         onGenerateRoute: (routeSettings) {
-          return MaterialPageRoute(
-            builder: (context) => _getRootPage(index),
-          );
+          return MaterialPageRoute(builder: (context) => _getRootPage(index));
         },
       ),
     );
@@ -42,7 +42,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   Widget _getRootPage(int index) {
     switch (index) {
       case 0:
-        return const MenuScreen();
+        return const ExtensionsScreen();
       case 1:
         return const HomeScreen();
       case 2:
@@ -68,15 +68,21 @@ class _NavigationMenuState extends State<NavigationMenu> {
         unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
-            icon: _selectedIndex == 0 ? const Icon(Icons.extension_rounded) : const Icon(Icons.extension_outlined), 
+            icon: _selectedIndex == 0
+                ? const Icon(Icons.extension_rounded)
+                : const Icon(Icons.extension_outlined),
             label: 'Tiện ích',
           ),
           BottomNavigationBarItem(
-            icon: _selectedIndex == 1 ? const Icon(Icons.calendar_month_rounded) : const Icon(Icons.calendar_month_outlined), 
+            icon: _selectedIndex == 1
+                ? const Icon(Icons.calendar_month_rounded)
+                : const Icon(Icons.calendar_month_outlined),
             label: 'Lịch học',
           ),
           BottomNavigationBarItem(
-            icon: _selectedIndex == 2 ? const Icon(Icons.person_rounded) : const Icon(Icons.person_outline), 
+            icon: _selectedIndex == 2
+                ? const Icon(Icons.person_rounded)
+                : const Icon(Icons.person_outline),
             label: 'Cá nhân',
           ),
         ],

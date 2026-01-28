@@ -1,11 +1,13 @@
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/models/user_model.dart';
+import 'package:nlu_portal_app/providers/auth_provider.dart';
 import 'package:nlu_portal_app/providers/user_provider.dart';
 import 'package:nlu_portal_app/views/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/views/profile/profile_screen.dart';
 import 'package:nlu_portal_app/views/widgets/switch_button_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -17,48 +19,12 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   
   // Support Request Button
-  void _supportRequestButton() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Thông báo',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.red,
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: const Text(
-          'Chức năng đang phát triển, vui lòng quay lại sau.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 14, color: Colors.black),
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          SizedBox(
-            width: 180,
-            child: TextButton(
-              onPressed: () => Navigator.pop(context, 'Đóng'),
-              style: TextButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 10,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text('Đóng'),
-            ),
-          ),
-        ],
-      ),
-    );
+  void _supportRequestButton() async {
+    final Uri url = Uri.parse('https://forms.gle/uZWQkPR76EesGjZGA');
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw 'Không mở được link: $url';
+    }
   }
 
   // Logout Button
@@ -77,48 +43,47 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         content: const Text(
           'Bạn có chắc muốn đăng xuất?',
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontSize: 15, color: Colors.black),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, 'Đóng'),
             style: ButtonStyle(
-              backgroundColor:
-                  WidgetStateProperty.all(AppColors.silverGray),
+              backgroundColor: WidgetStateProperty.all(AppColors.silverGray),
               foregroundColor: WidgetStateProperty.all(Colors.white),
               padding: WidgetStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              )),
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              ),
+              shape: WidgetStateProperty.all(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
             ),
             child: const Text('Đóng'),
           ),
           TextButton(
             onPressed: () async {
-              // Provider.of<AuthProvider>(context, listen: false).logout();
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-                (route) => false,
-              );
+              await Provider.of<AuthProvider>(context, listen: false).logout();
+
+              if (context.mounted) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  (route) => false,
+                );
+              }
             },
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(AppColors.primary),
               foregroundColor: WidgetStateProperty.all(Colors.white),
               padding: WidgetStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              )),
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              ),
+              shape: WidgetStateProperty.all(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
             ),
             child: const Text(
               'Đồng ý',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -138,7 +103,7 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     final userProvider = context.watch<UserProvider>();
     final user = userProvider.user;
-    
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -263,10 +228,7 @@ class _AccountScreenState extends State<AccountScreen> {
             offset: const Offset(0, 3),
           ),
         ],
-        border: Border.all(
-          color: AppColors.borderContainer,
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.borderContainer, width: 1),
       ),
       child: Column(
         children: [
@@ -294,12 +256,11 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'MSSV: ${(user?.studentId.trim().isNotEmpty ?? false)
-                            ? user!.studentId
-                            : 'Trống'}',
+                    'MSSV: ${(user?.studentId.trim().isNotEmpty ?? false) ? user!.studentId : 'Trống'}',
                     style: TextStyle(
                       fontSize: 17,
                       color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -358,10 +319,7 @@ Widget _buildNotificationButton({
     leading: Icon(icon, color: AppColors.primary),
     title: Text(
       title,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
     ),
     trailing: actionWidget,
   );

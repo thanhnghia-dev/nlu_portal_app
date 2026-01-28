@@ -4,6 +4,7 @@ import 'package:nlu_portal_app/providers/auth_provider.dart';
 import 'package:nlu_portal_app/views/widgets/navigation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,48 +14,50 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final studentIdController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool _obscureText = true;
   bool _isLoading = false;
 
   // Login Button
   void _loginButton() async {
-    String studentId = studentIdController.text;
+    String username = usernameController.text;
     String password = passwordController.text;
 
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const NavigationMenu()),
-      );
-    
-    // if (studentId.isEmpty && password.isEmpty) {
-    //   showOverlayToast(context, "Vui lòng nhập đầy đủ thông tin!");
-    //   return;
-    // }
+    if (username.isEmpty && password.isEmpty) {
+      showOverlayToast(context, "Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
 
-    // setState(() => _isLoading = true);
+    setState(() => _isLoading = true);
 
-    // try {
-    //   final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    //   await authProvider.login(studentId, password);
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await authProvider.login(username, password);
 
-    //   if (authProvider.isAuth) {
-    //     if (mounted) {
-    //       Navigator.of(context).pushReplacement(
-    //         MaterialPageRoute(builder: (_) => const NavigationMenu()),
-    //       );
-    //     }
-    //   } else {
-    //     showOverlayToast(
-    //       context,
-    //       "Sai MSSV hoặc mật khẩu.",
-    //     );
-    //   }
-    // } catch (e) {
-    //   showOverlayToast(context, "Đăng nhập thất bại!");
-    // }
+      if (authProvider.isAuth) {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const NavigationMenu()),
+          );
+        }
+      } else {
+        showOverlayToast(context, "Sai MSSV hoặc mật khẩu.");
+      }
+    } catch (e) {
+      showOverlayToast(context, "Đăng nhập thất bại!");
+    }
 
-    // setState(() => _isLoading = false);
+    setState(() => _isLoading = false);
+  }
+
+  // Forgot Password Button
+  void _forgotPasswordButton() async {
+    final Uri url = Uri.parse('https://dkmh.hcmuaf.edu.vn/#/forgetpass');
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw 'Không mở được link: $url';
+    }
   }
 
   @override
@@ -74,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: Colors.yellowAccent,
+                color: Colors.yellow,
               ),
             ),
           ),
@@ -115,11 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 8),
                     TextField(
-                      controller: studentIdController,
+                      controller: usernameController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         hintText: 'Nhập MSSV của bạn',
                       ),
                       obscureText: false,
@@ -162,12 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //       builder: (_) => const ForgotPasswordPage()),
-                            // );
-                          },
+                          onTap: _forgotPasswordButton,
                           child: const Text(
                             'Quên mật khẩu?',
                             style: TextStyle(
