@@ -12,16 +12,14 @@ class UserService {
   // Get User Info
   Future<User> fetchUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString("access_token");
+    final token = prefs.getString("access_token");
 
-    if (accessToken == null) {
-      throw Exception("No token found");
-    }
+    if (token == null) throw Exception("No token found");
 
     final response = await http.post(
       Uri.parse('$baseUrl/dkmh/w-locsinhvieninfo'),
       headers: {
-        "Authorization": "Bearer $accessToken",
+        "Authorization": "Bearer $token",
         "Content-Type": "application/json",
       },
       body: jsonEncode({}),

@@ -26,28 +26,26 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
   final classPeriod = "1-3";
   final room = "RD203";
 
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: subjects,
-        itemBuilder: (context, index) {
-          // final student = subjects[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 2),
-            child: Column(
-              children: [
-                buildSubjectCard(
-                  subjectName: subjectName,
-                  subjectCode: subjectCode,
-                  periodTime: classPeriod,
-                  room: room,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: subjects,
+      itemBuilder: (context, index) {
+        // final student = subjects[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 2),
+          child: Column(
+            children: [
+              buildSubjectCard(
+                subjectName: subjectName,
+                subjectCode: subjectCode,
+                periodTime: classPeriod,
+                room: room,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

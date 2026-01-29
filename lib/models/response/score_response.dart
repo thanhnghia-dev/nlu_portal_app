@@ -1,7 +1,7 @@
-import 'package:nlu_portal_app/models/semester_model.dart';
+import 'package:nlu_portal_app/models/semester_score_model.dart';
 
 class ScoreResponse {
-  final List<Semester> scoreList;
+  final List<SemesterScore> scoreList;
 
   ScoreResponse({
     required this.scoreList,

@@ -26,28 +26,26 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
   final room = "RD304";
   final lecturer = "Võ Tấn Toàn";
 
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: subjects,
-        itemBuilder: (context, index) {
-          // final student = subjects[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 1),
-            child: Column(
-              children: [
-                buildSubjectCard(
-                  subjectName: subjectName,
-                  periodTime: classPeriod,
-                  room: room,
-                  lecturer: lecturer,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: subjects,
+      itemBuilder: (context, index) {
+        // final student = subjects[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 1),
+          child: Column(
+            children: [
+              buildSubjectCard(
+                subjectName: subjectName,
+                periodTime: classPeriod,
+                room: room,
+                lecturer: lecturer,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

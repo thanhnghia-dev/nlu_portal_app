@@ -12,14 +12,14 @@ class SemesterService {
   // Get Semester list
   Future<SemesterResponse> fetchSemesters() async {
     final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString("access_token");
+    final token = prefs.getString("access_token");
 
-    if (accessToken == null) throw Exception("No token");
+    if (token == null) throw Exception("No token found");
 
     final response = await http.post(
       Uri.parse('$baseUrl/sch/w-locdshockytkbuser'),
       headers: {
-        "Authorization": "Bearer $accessToken",
+        "Authorization": "Bearer $token",
         "Content-Type": "application/json",
       },
       body: jsonEncode({}),

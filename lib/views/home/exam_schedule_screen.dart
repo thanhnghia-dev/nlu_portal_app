@@ -12,12 +12,14 @@ class ExamScheduleScreen extends StatefulWidget {
 }
 
 class _ExamScheduleScreenState extends State<ExamScheduleScreen> {
-  String? selectedSemester;
+  int? selectedSemesterId;
   
   @override
   void initState() {
     super.initState();
-    Provider.of<SemesterProvider>(context, listen: false).loadSemesters();
+    Future.microtask(() {
+      context.read<SemesterProvider>().loadSemesters();
+    });
   }
 
   @override
@@ -47,18 +49,18 @@ class _ExamScheduleScreenState extends State<ExamScheduleScreen> {
             child: Consumer<SemesterProvider>(
               builder: (context, provider, child) {
                 return DropdownButtonFormField(
-                  initialValue: selectedSemester,
+                  initialValue: selectedSemesterId,
                   items: provider.semesters
                       .map(
                         (semester) => DropdownMenuItem(
-                          value: semester.name,
+                          value: semester.semesterId,
                           child: Text(semester.name),
                         ),
                       )
                       .toList(),
                   onChanged: (val) {
                     setState(() {
-                      selectedSemester = val as String;
+                      selectedSemesterId = val;
                     });
                   },
                   icon: const Icon(
@@ -75,7 +77,7 @@ class _ExamScheduleScreenState extends State<ExamScheduleScreen> {
               }
             ),
           ),
-          ScheduleItemsWidget(),
+          Expanded(child: ScheduleItemsWidget()),
         ],
       ),
     );

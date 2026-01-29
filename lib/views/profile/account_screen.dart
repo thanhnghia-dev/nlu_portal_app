@@ -17,7 +17,6 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  
   // Support Request Button
   void _supportRequestButton() async {
     final Uri url = Uri.parse('https://forms.gle/uZWQkPR76EesGjZGA');
@@ -237,7 +236,7 @@ class _AccountScreenState extends State<AccountScreen> {
               CircleAvatar(
                 radius: 35,
                 backgroundImage: NetworkImage(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFLHz0vltSz4jyrQ5SmjyKiVAF-xjpuoHcCw&s',
+                  'https://cdn-icons-png.freepik.com/256/5886/5886169.png?semt=ais_white_label',
                 ),
               ),
               SizedBox(width: 15),

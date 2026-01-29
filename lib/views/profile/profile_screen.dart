@@ -11,7 +11,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -25,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final width = MediaQuery.of(context).size.width;
     final userProvider = context.watch<UserProvider>();
     final user = userProvider.user;
-    
+
     return Scaffold(
       backgroundColor: AppColors.primary,
       appBar: AppBar(
@@ -45,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           CircleAvatar(
             radius: 45,
             backgroundImage: NetworkImage(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFLHz0vltSz4jyrQ5SmjyKiVAF-xjpuoHcCw&s',
+              'https://cdn-icons-png.freepik.com/256/5886/5886169.png?semt=ais_white_label',
             ),
           ),
           const SizedBox(height: 10),
@@ -110,8 +109,9 @@ Widget buildInfoRow(
   bool highlight = false,
   bool isMultiline = false,
 }) {
-  final displayValue =
-      (value == null || value.trim().isEmpty) ? 'Trống' : value;
+  final displayValue = (value == null || value.trim().isEmpty)
+      ? 'Trống'
+      : value;
 
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10),
