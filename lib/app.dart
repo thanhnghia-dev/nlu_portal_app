@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
-import 'package:nlu_portal_app/providers/auth_provider.dart';
+import 'package:nlu_portal_app/services/auth_service.dart';
 import 'package:nlu_portal_app/views/auth/login_screen.dart';
 import 'package:nlu_portal_app/views/widgets/navigation_widget.dart';
 import 'package:provider/provider.dart';
@@ -23,13 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _initSplash() async {
     await Future.delayed(Duration.zero);
 
-    await precacheImage(const AssetImage('assets/logo_nlu.png'), context);
+    await precacheImage(const AssetImage('assets/logo_nlu_70y.png'), context);
 
     await Future.delayed(const Duration(seconds: 1));
 
     if (!mounted) return;
 
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthService>(context, listen: false);
 
     if (authProvider.isAuth) {
       // Đã đăng nhập → vào NavigationMenu
@@ -61,12 +61,14 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image(
-              image: const AssetImage('assets/logo_nlu.png'),
-              height: 200,
-              width: 200,
+              image: const AssetImage('assets/logo_nlu_70y.png'),
+              height: 300,
+              width: 300,
+              // height: 200,
+              // width: 200,
               fit: BoxFit.contain,
             ),
-            const SizedBox(height: 25),
+            // const SizedBox(height: 25),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -75,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: TextStyle(
                     color: Colors.yellow,
                     fontSize: 50,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 SizedBox(width: 8),
@@ -84,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: TextStyle(
                     color: Colors.yellow,
                     fontSize: 50,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],

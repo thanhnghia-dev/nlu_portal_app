@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/views/home/exam_schedule_screen.dart';
-import 'package:nlu_portal_app/views/home/exam_score_screen.dart';
+import 'package:nlu_portal_app/views/home/exam_result_screen.dart';
 
 class ExtensionsScreen extends StatefulWidget {
   const ExtensionsScreen({super.key});
@@ -11,6 +11,51 @@ class ExtensionsScreen extends StatefulWidget {
 }
 
 class _ExtensionsScreenState extends State<ExtensionsScreen> {
+  // waiting Button
+  void _waitingButton() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Thông báo',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: const Text(
+          'Chức năng đang phát triển, vui lòng quay lại sau.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14, color: Colors.black),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          SizedBox(
+            width: 180,
+            child: TextButton(
+              onPressed: () => Navigator.pop(context, 'Đóng'),
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Đóng'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +88,19 @@ class _ExtensionsScreenState extends State<ExtensionsScreen> {
               title: 'Điểm thi',
               onTap: () {
                 Navigator.of(context, rootNavigator: true).push(
-                  MaterialPageRoute(builder: (_) => const ExamScoreScreen()),
+                  MaterialPageRoute(builder: (_) => const ExamResultScreen()),
                 );
               },
+            ),
+            _buildMenuItem(
+              icon: Icons.playlist_add_check_circle,
+              title: 'Thống kê điểm danh',
+              onTap: _waitingButton,
+            ),
+            _buildMenuItem(
+              icon: Icons.view_list_rounded,
+              title: 'Điểm rèn luyện',
+              onTap: _waitingButton,
             ),
           ],
         ),
@@ -80,7 +135,7 @@ class _ExtensionsScreenState extends State<ExtensionsScreen> {
           leading: Icon(icon, color: AppColors.primary),
           title: Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
           ),
           trailing: const Icon(
             Icons.arrow_forward_ios,

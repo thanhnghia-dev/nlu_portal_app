@@ -4,7 +4,7 @@ import 'package:nlu_portal_app/app.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/utils/http_config.dart';
-import 'package:nlu_portal_app/providers/auth_provider.dart';
+import 'package:nlu_portal_app/services/auth_service.dart';
 import 'package:nlu_portal_app/providers/semester_provider.dart';
 import 'package:nlu_portal_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
-  final authProvider = AuthProvider();
+  final authProvider = AuthService();
   await authProvider.tryAutoLogin();
 
   runApp(

@@ -1,6 +1,6 @@
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/models/user_model.dart';
-import 'package:nlu_portal_app/providers/auth_provider.dart';
+import 'package:nlu_portal_app/services/auth_service.dart';
 import 'package:nlu_portal_app/providers/user_provider.dart';
 import 'package:nlu_portal_app/views/auth/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
           TextButton(
             onPressed: () async {
-              await Provider.of<AuthProvider>(context, listen: false).logout();
+              await Provider.of<AuthService>(context, listen: false).logout();
 
               if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -249,18 +249,28 @@ class _AccountScreenState extends State<AccountScreen> {
                         : 'Trống',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       color: AppColors.primary,
                     ),
                   ),
                   SizedBox(height: 5),
-                  Text(
-                    'MSSV: ${(user?.studentId.trim().isNotEmpty ?? false) ? user!.studentId : 'Trống'}',
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        'MSSV: ',
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                      Text(
+                        (user?.studentId.trim().isNotEmpty ?? false)
+                            ? user!.studentId
+                            : 'Trống',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -1,6 +1,6 @@
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/core/utils/util.dart';
-import 'package:nlu_portal_app/providers/auth_provider.dart';
+import 'package:nlu_portal_app/services/auth_service.dart';
 import 'package:nlu_portal_app/views/widgets/navigation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final authProvider = Provider.of<AuthService>(context, listen: false);
       await authProvider.login(username, password);
 
       if (authProvider.isAuth) {
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
               'NLU Portal',
               style: TextStyle(
                 fontSize: 28,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w900,
                 color: Colors.yellow,
               ),
             ),
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
               'Welcome back!',
               style: TextStyle(
                 fontSize: 23,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w900,
                 color: Colors.white,
               ),
             ),
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _obscureText
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: AppColors.silverGray,
+                            color: AppColors.primary,
                           ),
                           onPressed: () {
                             setState(() {

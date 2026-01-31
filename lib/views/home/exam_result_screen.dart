@@ -4,14 +4,14 @@ import 'package:nlu_portal_app/providers/semester_provider.dart';
 import 'package:nlu_portal_app/views/widgets/score_items_widget.dart';
 import 'package:provider/provider.dart';
 
-class ExamScoreScreen extends StatefulWidget {
-  const ExamScoreScreen({super.key});
+class ExamResultScreen extends StatefulWidget {
+  const ExamResultScreen({super.key});
 
   @override
-  State<ExamScoreScreen> createState() => _ExamScoreScreenState();
+  State<ExamResultScreen> createState() => _ExamResultScreenState();
 }
 
-class _ExamScoreScreenState extends State<ExamScoreScreen> {
+class _ExamResultScreenState extends State<ExamResultScreen> {
   int? selectedSemesterId;
 
   @override

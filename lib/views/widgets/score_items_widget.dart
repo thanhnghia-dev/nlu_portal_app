@@ -206,7 +206,7 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
           value.toStringAsFixed(1),
           style: const TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w900,
             color: Colors.red,
           ),
         ),
@@ -233,7 +233,7 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
             '$value ',
             style: const TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w900,
               color: Colors.black,
             ),
           ),

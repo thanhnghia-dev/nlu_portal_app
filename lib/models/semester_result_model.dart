@@ -1,6 +1,6 @@
 import 'package:nlu_portal_app/models/subject_score_model.dart';
 
-class SemesterScore {
+class SemesterResult {
   final int majorType;
   final String semesterId;
   final String semesterName;
@@ -12,8 +12,8 @@ class SemesterScore {
   final String cumulativeCredits;
   final String semesterRank;
   final List<SubjectScore> subjectSoreList;
-  
-  SemesterScore({
+
+  SemesterResult({
     required this.majorType,
     required this.semesterId,
     required this.semesterName,
@@ -27,8 +27,8 @@ class SemesterScore {
     required this.subjectSoreList,
   });
 
-  factory SemesterScore.fromJson(Map<String, dynamic> json) {
-    return SemesterScore(
+  factory SemesterResult.fromJson(Map<String, dynamic> json) {
+    return SemesterResult(
       majorType: json['loai_nganh'],
       semesterId: json['hoc_ky'],
       semesterName: json['ten_hoc_ky'],

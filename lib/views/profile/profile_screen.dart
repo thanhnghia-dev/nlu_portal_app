@@ -53,8 +53,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? user!.fullName
                 : 'Trống',
             style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
               color: Colors.white,
             ),
           ),
@@ -132,11 +132,11 @@ Widget buildInfoRow(
           child: Text(
             displayValue,
             style: TextStyle(
-              fontSize: 15,
-              fontWeight: highlight ? FontWeight.bold : FontWeight.normal,
+              fontSize: highlight ? 18 : 16,
+              fontWeight: highlight ? FontWeight.w900 : FontWeight.bold,
               color: displayValue == 'Trống'
                   ? Colors.grey
-                  : (highlight ? AppColors.primary : Colors.black),
+                  : (highlight ? Colors.red : Colors.black),
             ),
           ),
         ),
