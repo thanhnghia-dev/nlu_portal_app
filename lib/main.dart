@@ -4,6 +4,7 @@ import 'package:nlu_portal_app/app.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/utils/http_config.dart';
+import 'package:nlu_portal_app/providers/result_provider.dart';
 import 'package:nlu_portal_app/services/auth_service.dart';
 import 'package:nlu_portal_app/providers/semester_provider.dart';
 import 'package:nlu_portal_app/providers/user_provider.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => authProvider),
         ChangeNotifierProvider(create: (_) => UserProvider()..getUserInfo()),
         ChangeNotifierProvider(create: (_) => SemesterProvider()),
+        ChangeNotifierProvider(create: (_) => ResultProvider()),
       ],
       child: const MyApp(),
     ),

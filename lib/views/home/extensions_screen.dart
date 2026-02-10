@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/views/home/exam_schedule_screen.dart';
-import 'package:nlu_portal_app/views/home/exam_result_screen.dart';
+import 'package:nlu_portal_app/views/home/score_screen.dart';
 
 class ExtensionsScreen extends StatefulWidget {
   const ExtensionsScreen({super.key});
@@ -88,7 +88,7 @@ class _ExtensionsScreenState extends State<ExtensionsScreen> {
               title: 'Điểm thi',
               onTap: () {
                 Navigator.of(context, rootNavigator: true).push(
-                  MaterialPageRoute(builder: (_) => const ExamResultScreen()),
+                  MaterialPageRoute(builder: (_) => const ScoreScreen()),
                 );
               },
             ),

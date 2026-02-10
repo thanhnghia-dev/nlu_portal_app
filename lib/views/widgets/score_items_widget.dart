@@ -1,95 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 
-class ScoreItemsWidget extends StatefulWidget {
+class ScoreItemsWidget extends StatelessWidget {
   const ScoreItemsWidget({super.key});
 
   @override
-  State<ScoreItemsWidget> createState() => _ScoreItemsWidgetState();
-}
-
-class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
-  @override
-  void initState() {
-    super.initState();
-    // Provider.of<CourseProvider>(context, listen: false).loadCourses();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // final courseProvider = Provider.of<CourseProvider>(context);
-    // final courses = courseProvider.courses;
     final scores = 5;
-    final subjectName = "Thực tập lập trình trên thiết bị di động";
-    final subjectCode = "214293";
-    final credits = 3;
-    final score10 = 9.0;
-    final score4 = 4.0;
-
-    final averageScore10 = "8.21";
-    final averageScore4 = "3.46";
-    final gpa10 = "6.76";
-    final gpa4 = "2.6";
-    final semesterCredits = "13";
-    final cumulativeCredits = "159";
 
     return Container(
-      padding: const EdgeInsets.only(top: 5, bottom: 20, left: 10, right: 10),
       color: Colors.white,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.borderContainer),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 3,
               blurRadius: 5,
-              offset: const Offset(0, 3),
+              spreadRadius: 3,
             ),
           ],
-          border: Border.all(color: AppColors.borderContainer, width: 1),
         ),
-        child: CustomScrollView(
-          slivers: [
-            /// LIST SCORE
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
+        child: Column(
+          children: [
+            /// LIST SUBJECT
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: scores,
+              itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    buildScoreDetailCard(
-                      subjectName: subjectName,
-                      subjectCode: subjectCode,
-                      credits: credits,
-                      score10: score10,
-                      score4: score4,
+                    _buildScoreDetailCard(
+                      subjectName:
+                          'Thực tập lập trình trên thiết bị di động',
+                      subjectCode: '214293',
+                      credits: 3,
+                      score10: 9.0,
+                      score4: 4.0,
                     ),
-                    const Divider(color: AppColors.primary),
+                    if (index < scores - 1) const Divider(color: AppColors.primary),
                   ],
                 );
-              }, childCount: scores),
+              },
             ),
 
-            /// STATISTIC CARD
-            SliverToBoxAdapter(
-              child: buildStatisticCard(
-                averageScore10: averageScore10,
-                averageScore4: averageScore4,
-                gpa10: gpa10,
-                gpa4: gpa4,
-                semesterCredits: semesterCredits,
-                cumulativeCredits: cumulativeCredits,
-              ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
+            /// STATISTIC
+            _buildStatisticCard(),
           ],
         ),
       ),
     );
   }
 
-  // Score Detail Card
-  Widget buildScoreDetailCard({
+  // ================= SUBJECT =================
+
+  Widget _buildScoreDetailCard({
     required String subjectName,
     required String subjectCode,
     required int credits,
@@ -97,7 +65,7 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
     required double score4,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -105,28 +73,23 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
             subjectName,
             style: const TextStyle(
               fontSize: 20,
-              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 8),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              buildInfoRow('Mã môn học:', subjectCode),
-              buildInfoRow('Số tín chỉ:', credits.toString()),
+              _infoRow('Mã môn học:', subjectCode),
+              _infoRow('Số tín chỉ:', credits.toString()),
             ],
           ),
-
           const SizedBox(height: 8),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              buildScoreRow('Điểm hệ 10:', score10),
-              buildScoreRow('Điểm hệ 4:', score4),
+              _scoreRow('Điểm hệ 10:', score10),
+              _scoreRow('Điểm hệ 4:', score4),
             ],
           ),
         ],
@@ -134,74 +97,63 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
     );
   }
 
-  // Score Statistic Card
-  Widget buildStatisticCard({
-    required String averageScore10,
-    required String averageScore4,
-    required String gpa10,
-    required String gpa4,
-    required String semesterCredits,
-    required String cumulativeCredits,
-  }) {
+  // ================= STATISTIC =================
+
+  Widget _buildStatisticCard() {
     return Container(
       color: AppColors.borderContainer,
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10),
-          buildTotalScoreRow('Điểm TB học kỳ hệ 10:', averageScore10),
-          const Divider(color: Colors.black),
-          buildTotalScoreRow('Điểm TB học kỳ hệ 4:', averageScore4),
-          const Divider(color: Colors.black),
-          buildTotalScoreRow('Điểm TB tích lũy hệ 10:', gpa10),
-          const Divider(color: Colors.black),
-          buildTotalScoreRow('Điểm TB tích lũy hệ 4:', gpa4),
-          const Divider(color: Colors.black),
-          buildTotalScoreRow('Số tín chỉ đạt:', semesterCredits),
-          const Divider(color: Colors.black),
-          buildTotalScoreRow('Số tín chỉ tích lũy:', cumulativeCredits),
-          SizedBox(height: 10),
+        children: const [
+          _totalRow('Điểm TB học kỳ hệ 10:', '8.21'),
+          Divider(),
+          _totalRow('Điểm TB học kỳ hệ 4:', '3.46'),
+          Divider(),
+          _totalRow('Điểm TB tích lỹ hệ 10:', '6.76'),
+          Divider(),
+          _totalRow('Điểm TB tích lũy hệ 4:', '2.60'),
+          Divider(),
+          _totalRow('Số tín chỉ đạt', '13'),
+          Divider(),
+          _totalRow('Số tín chỉ tích lũy', '159'),
         ],
       ),
     );
   }
 
-  // Subject Info Item
-  Widget buildInfoRow(String label, String value) {
+  // ================= SMALL WIDGET =================
+
+  Widget _infoRow(String label, String value) {
     return Row(
       children: [
         Text(
-          '$label ',
-          style: const TextStyle(
-            fontSize: 17,
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-          ),
+          label,
+          style: const TextStyle(fontSize: 16),
         ),
+        const SizedBox(width: 4),
         Text(
           value,
           style: const TextStyle(
-            fontSize: 17,
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],
     );
   }
 
-  // Score Ingredient Item
-  Widget buildScoreRow(String label, double value) {
+  Widget _scoreRow(String label, double value) {
     return Row(
       children: [
         Text(
-          '$label ',
+          label,
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
+        const SizedBox(width: 4),
         Text(
           value.toStringAsFixed(1),
           style: const TextStyle(
@@ -213,16 +165,24 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
       ],
     );
   }
+}
 
-  // Total Score Item
-  Widget buildTotalScoreRow(String label, String value) {
+// ignore: camel_case_types
+class _totalRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _totalRow(this.label, this.value);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '$label ',
+            label,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -230,7 +190,7 @@ class _ScoreItemsWidgetState extends State<ScoreItemsWidget> {
             ),
           ),
           Text(
-            '$value ',
+            value,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w900,

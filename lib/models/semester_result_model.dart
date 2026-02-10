@@ -39,7 +39,9 @@ class SemesterResult {
       semesterCredits: json['so_tin_chi_dat_hk'],
       cumulativeCredits: json['so_tin_chi_dat_tich_luy'],
       semesterRank: json['xep_loai_tkb_hk'],
-      subjectSoreList: json['ds_diem_mon_hoc'],
+      subjectSoreList: (json['ds_diem_mon_hoc'] as List)
+          .map((e) => SubjectScore.fromJson(e))
+          .toList(),
     );
   }
 }
