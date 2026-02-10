@@ -16,8 +16,12 @@ class ResultService {
 
     if (token == null) throw Exception("No token found");
 
+    final uri = Uri.parse(
+      '$baseUrl/srm/w-locdsdiemsinhvien',
+    ).replace(queryParameters: {'hien_thi_mon_theo_hkdk': 'false'});
+
     final response = await http.post(
-      Uri.parse('$baseUrl/srm/w-locdsdiemsinhvien?hien_thi_mon_theo_hkdk=false'),
+      uri,
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",

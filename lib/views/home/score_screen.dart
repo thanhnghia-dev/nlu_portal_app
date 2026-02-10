@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/providers/result_provider.dart';
+import 'package:nlu_portal_app/providers/semester_provider.dart';
 import 'package:nlu_portal_app/views/widgets/score_items_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +17,17 @@ class _ScoreScreenState extends State<ScoreScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ResultProvider>().loadResults();
+      // context.read<ResultProvider>().loadResults();
+      context.read<SemesterProvider>().loadSemesters();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final resultProvider = context.watch<ResultProvider>();
-    final results = resultProvider.results;
+    // final provider = context.watch<ResultProvider>();
+    // final results = provider.results;
+    final provider = context.watch<SemesterProvider>();
+    final results = provider.semesters;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -38,25 +42,15 @@ class _ScoreScreenState extends State<ScoreScreen> {
         ),
         centerTitle: true,
       ),
-      // body: results.isEmpty
-      //     ? const Center(child: Text('Chưa có dữ liệu điểm'))
-      //     : ListView.builder(
-      //         padding: const EdgeInsets.all(10),
-      //         itemCount: results.length,
-      //         itemBuilder: (context, index) {
-      //           final semester = results[index];
-
-      //           return _buildSemesterTile(title: semester.semesterName);
-      //         },
-      //       ),
-      
-      body: ListView.builder(
+      body: results.isEmpty
+          ? const Center(child: Text('Chưa có dữ liệu điểm'))
+          : ListView.builder(
               padding: const EdgeInsets.all(10),
-              itemCount: 3,
+              itemCount: results.length,
               itemBuilder: (context, index) {
-                // final semester = results[index];
+                final semester = results[index];
 
-                return _buildSemesterTile(title: 'Học kỳ 1 Năm học 2025-2026');
+                return _buildSemesterTile(title: semester.name);
               },
             ),
     );
