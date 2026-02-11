@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SwitchButtonWidget extends StatefulWidget {
   const SwitchButtonWidget({super.key});
@@ -33,11 +34,31 @@ class _SwitchButtonWidgetState extends State<SwitchButtonWidget> {
   Widget build(BuildContext context) {
     return Switch(
       value: isSwitched,
-      onChanged: (value) {
-        setState(() {
-          isSwitched = value;
-        });
-        _saveSwitchState(value);
+      onChanged: (value) async {
+        if (value) {
+          var status = await Permission.notification.status;
+
+          if (!status.isGranted) {
+            status = await Permission.notification.request();
+          }
+
+          if (status.isGranted) {
+            setState(() {
+              isSwitched = true;
+            });
+            _saveSwitchState(true);
+          } else {
+            setState(() {
+              isSwitched = false;
+            });
+            _saveSwitchState(false);
+          }
+        } else {
+          setState(() {
+            isSwitched = false;
+          });
+          _saveSwitchState(false);
+        }
       },
     );
   }

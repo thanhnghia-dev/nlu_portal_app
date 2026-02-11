@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
-import 'package:nlu_portal_app/core/utils/util.dart';
+import 'package:nlu_portal_app/core/utils/overlay_toast.dart';
 import 'package:nlu_portal_app/providers/semester_provider.dart' show SemesterProvider;
 import 'package:nlu_portal_app/views/widgets/schedule_items_widget.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
+import 'package:nlu_portal_app/models/timetable_model.dart';
+import 'package:nlu_portal_app/providers/timetable_provider.dart';
+import 'package:provider/provider.dart';
 
 class TimetableItemsWidget extends StatefulWidget {
   const TimetableItemsWidget({super.key});
@@ -9,52 +12,59 @@ class TimetableItemsWidget extends StatefulWidget {
 }
 
 class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
-
   @override
   void initState() {
     super.initState();
-    // Provider.of<CourseProvider>(context, listen: false).loadCourses();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<TimetableProvider>().loadTimetable();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-  // final courseProvider = Provider.of<CourseProvider>(context);
-  // final subjects = courseProvider.subjects;
-  final subjects = 5;
-  final subjectName = "Thực tập lập trình trên thiết bị di động";
-  final classPeriod = "1-3";
-  final room = "RD304";
-  final lecturer = "Võ Tấn Toàn";
+    final provider = context.watch<TimetableProvider>();
+
+    if (provider.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    
+    /// USE FOR SEMESTER
+    final allTimetables = provider.timetables;
+
+    /// USE FOR WEEK
+    /* final allTimetables = provider.timetables
+        .expand((semester) => semester.timetableList)
+        .toList(); */
+
+    if (allTimetables.isEmpty) {
+      return const Center(
+        child: Text(
+          'Hôm nay không có môn học nào',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+        ),
+      );
+    }
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: subjects,
+      itemCount: allTimetables.length,
       itemBuilder: (context, index) {
-        // final student = subjects[index];
+        final timetable = allTimetables[index];
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 1),
-          child: Column(
-            children: [
-              buildSubjectCard(
-                subjectName: subjectName,
-                periodTime: classPeriod,
-                room: room,
-                lecturer: lecturer,
-              ),
-            ],
-          ),
+          child: Column(children: [buildSubjectCard(timetable: timetable)]),
         );
       },
     );
   }
 
-  Widget buildSubjectCard({
-    required String subjectName,
-    required String periodTime,
-    required String room,
-    required String lecturer,
-  }) {
+  Widget buildSubjectCard({required Timetable timetable}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       child: Container(
@@ -76,7 +86,7 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              subjectName,
+              timetable.subjectName,
               style: const TextStyle(
                 fontSize: 18,
                 color: Colors.black,
@@ -84,9 +94,9 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
               ),
             ),
             SizedBox(height: 8),
-            buildDetailRow('Tiết :', periodTime),
-            buildDetailRow('Phòng :', room),
-            buildDetailRow('Giảng viên :', lecturer),
+            buildDetailRow('Tiết :', timetable.periodRange),
+            buildDetailRow('Phòng :', timetable.roomId),
+            buildDetailRow('Giảng viên :', timetable.lecturerName),
           ],
         ),
       ),
@@ -100,10 +110,7 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
         children: [
           Text(
             '$label ',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
+            style: const TextStyle(fontSize: 16, color: Colors.black),
           ),
           Text(
             value,
@@ -117,5 +124,4 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
       ),
     );
   }
-
 }

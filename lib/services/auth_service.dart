@@ -29,9 +29,6 @@ class AuthService with ChangeNotifier {
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
 
-      debugPrint("Status: ${response.statusCode}");
-      debugPrint("Response: ${response.data}");
-
       if (response.statusCode == 200) {
         final data = response.data;
 

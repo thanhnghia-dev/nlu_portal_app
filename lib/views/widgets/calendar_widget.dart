@@ -27,7 +27,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColors.borderContainer,
       child: TableCalendar(
         locale: 'vi_VN',
         firstDay: DateTime.utc(2000, 01, 01),
@@ -35,9 +35,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         focusedDay: _focusedDay,
 
         calendarFormat: CalendarFormat.twoWeeks,
-        availableCalendarFormats: const {
-          CalendarFormat.twoWeeks: '2 tuần',
-        },
+        availableCalendarFormats: const {CalendarFormat.twoWeeks: '2 tuần'},
 
         selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
 
@@ -57,9 +55,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             fontWeight: FontWeight.bold,
             color: Colors.black87,
           ),
-          leftChevronIcon: const Icon(Icons.chevron_left, color: Colors.black87),
-          rightChevronIcon:
-              const Icon(Icons.chevron_right, color: Colors.black87),
+          leftChevronIcon: const Icon(
+            Icons.chevron_left,
+            color: Colors.black87,
+          ),
+          rightChevronIcon: const Icon(
+            Icons.chevron_right,
+            color: Colors.black87,
+          ),
         ),
 
         daysOfWeekStyle: const DaysOfWeekStyle(

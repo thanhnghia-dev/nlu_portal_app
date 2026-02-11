@@ -43,7 +43,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
         centerTitle: true,
       ),
       body: results.isEmpty
-          ? const Center(child: Text('Chưa có dữ liệu điểm'))
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               padding: const EdgeInsets.all(10),
               itemCount: results.length,
@@ -56,9 +56,10 @@ class _ScoreScreenState extends State<ScoreScreen> {
     );
   }
 
+  // Semester Heading
   Widget _buildSemesterTile({required String title}) {
     return ClipRRect(
-    borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
@@ -66,9 +67,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Theme(
-          data: ThemeData().copyWith(
-            dividerColor: Colors.transparent,
-          ),
+          data: ThemeData().copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Text(
               title,
@@ -82,10 +81,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
             collapsedIconColor: Colors.white,
             backgroundColor: AppColors.primary,
             collapsedBackgroundColor: AppColors.primary,
-      
-            children: const [
-              ScoreItemsWidget(),
-            ],
+
+            children: const [ScoreItemsWidget()],
           ),
         ),
       ),
