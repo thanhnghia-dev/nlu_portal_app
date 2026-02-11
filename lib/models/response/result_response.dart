@@ -6,10 +6,12 @@ class ResultResponse {
   ResultResponse({required this.scoreList});
 
   factory ResultResponse.fromJson(Map<String, dynamic> json) {
-    final list = json['ds_diem_hocky'] as List<dynamic>;
+    final list = json['ds_diem_hocky'] as List<dynamic>? ?? [];
 
     return ResultResponse(
-      scoreList: list.map((e) => SemesterResult.fromJson(e)).toList(),
+      scoreList: list
+          .map((e) => SemesterResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

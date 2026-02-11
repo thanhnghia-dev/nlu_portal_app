@@ -42,7 +42,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
         ),
         centerTitle: true,
       ),
-      body: results.isEmpty
+      body: results.isEmpty || provider.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               padding: const EdgeInsets.all(10),

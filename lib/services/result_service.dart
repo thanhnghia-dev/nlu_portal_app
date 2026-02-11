@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:nlu_portal_app/core/utils/constant.dart';
 import 'package:nlu_portal_app/models/response/api_response.dart';
-import 'package:nlu_portal_app/models/response/Result_response.dart';
+import 'package:nlu_portal_app/models/response/result_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResultService {
@@ -32,6 +32,10 @@ class ResultService {
     if (response.statusCode == 200) {
       final jsonBody = json.decode(response.body);
       
+      if (jsonBody["result"] == false) {
+        throw Exception(jsonBody["message"]);
+      }
+
       final apiResponse = ApiResponse<ResultResponse>.fromJson(
         jsonBody,
         (data) => ResultResponse.fromJson(data),

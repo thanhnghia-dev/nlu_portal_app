@@ -21,14 +21,14 @@ class SubjectScore {
 
   factory SubjectScore.fromJson(Map<String, dynamic> json) {
     return SubjectScore(
-      subjectId: json['ma_mon'],
-      subjectName: json['ten_mon'],
-      creditNumber: json['so_tin_chi'],
-      examScore: json['diem_thi'],
-      midtermScore: json['diem_giua_ky'],
-      finalScore10: json['diem_tk'],
-      finalScore4: json['diem_tk_so'],
-      rating: json['diem_tk_chu'],
+      subjectId: json['ma_mon']?.toString() ?? '',
+      subjectName: json['ten_mon']?.toString() ?? '',
+      creditNumber: json['so_tin_chi']?.toString() ?? '',
+      examScore: json['diem_thi']?.toString() ?? '',
+      midtermScore: json['diem_giua_ky']?.toString() ?? '',
+      finalScore10: json['diem_tk']?.toString() ?? '',
+      finalScore4: json['diem_tk_so']?.toString() ?? '',
+      rating: json['diem_tk_chu']?.toString() ?? '',
     );
   }
 }

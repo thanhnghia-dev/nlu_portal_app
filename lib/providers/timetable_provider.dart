@@ -17,7 +17,6 @@ class TimetableProvider with ChangeNotifier {
       final response = await TimetableService().fetchTimetable();
 
       _timetables = response.timetableList;
-
     } catch (e) {
       _timetables = [];
     }
