@@ -27,14 +27,8 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
     if (provider.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    
-    /// USE FOR SEMESTER
-    final allTimetables = provider.timetables;
 
-    /// USE FOR WEEK
-    /* final allTimetables = provider.timetables
-        .expand((semester) => semester.timetableList)
-        .toList(); */
+    final allTimetables = provider.timetablesBySelectedDate;
 
     if (allTimetables.isEmpty) {
       return const Center(

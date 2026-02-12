@@ -19,27 +19,18 @@ class TimetableService {
       throw Exception("No token found");
     }
 
-    /// USE FOR SEMESTER
     final requestBody = {
-      "hoc_ky": semester,
-      "loai_doi_tuong": 1,
-      "id_du_lieu": null,
-    };
-
-    /// USE FOR WEEK
-    /* final requestBody = {
-      "filter": {"hoc_ky": 20241, "ten_hoc_ky": ""},
+      "filter": {"hoc_ky": semester, "ten_hoc_ky": ""},
       "additional": {
         "paging": {"limit": 100, "page": 1},
         "ordering": [
           {"name": null, "order_type": null},
         ],
       },
-    }; */
+    };
 
     final response = await http.post(
-      // Uri.parse('$baseUrl/sch/w-locdstkbtuanusertheohocky'),
-      Uri.parse('$baseUrl/sch/w-locdstkbhockytheodoituong'),
+      Uri.parse('$baseUrl/sch/w-locdstkbtuanusertheohocky'),
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",

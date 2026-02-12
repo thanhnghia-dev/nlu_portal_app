@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
+import 'package:nlu_portal_app/providers/timetable_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -84,7 +86,14 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             fontWeight: FontWeight.bold,
           ),
           selectedTextStyle: const TextStyle(color: Colors.white),
+          markerDecoration: const BoxDecoration(
+            color: Colors.red,
+            shape: BoxShape.circle,
+          ),
         ),
+        eventLoader: (day) {
+          return context.read<TimetableProvider>().getEventsForDay(day);
+        },
       ),
     );
   }
@@ -95,6 +104,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
       });
+      context.read<TimetableProvider>().setSelectedDate(selectedDay);
     }
   }
 
