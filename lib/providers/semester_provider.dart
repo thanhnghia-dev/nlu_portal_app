@@ -5,7 +5,6 @@ import 'package:nlu_portal_app/services/semester_service.dart';
 class SemesterProvider with ChangeNotifier {
   List<Semester> _semesters = [];
   bool _isLoading = false;
-
   int? _selectedSemesterId;
 
   List<Semester> get semesters => _semesters;

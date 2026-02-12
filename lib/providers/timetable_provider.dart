@@ -8,22 +8,31 @@ class TimetableProvider with ChangeNotifier {
 
   List<TimetableSemester> _semesters = [];
   List<Timetable> _allTimetables = [];
+  int? _selectedSemesterId;
 
   bool _isLoading = false;
+  int? get selectedSemesterId => _selectedSemesterId;
   DateTime _selectedDate = DateTime.now();
 
   bool get isLoading => _isLoading;
   DateTime get selectedDate => _selectedDate;
 
+  void setSemester(int semesterId) {
+    _selectedSemesterId = semesterId;
+    loadTimetable();
+  }
+
   /// -------------------------
   /// LOAD DATA
   /// -------------------------
   Future<void> loadTimetable() async {
+    if (_selectedSemesterId == null) return;
+
     _isLoading = true;
     notifyListeners();
 
     try {
-      final response = await _service.fetchTimetable();
+      final response = await _service.fetchTimetable(_selectedSemesterId!);
 
       _semesters = response.timetableList;
 

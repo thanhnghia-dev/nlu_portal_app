@@ -8,10 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TimetableService {
   final baseUrl = Constant.api;
-  final semester = 20241;
 
   // Get Timetable list
-  Future<TimetableResponse> fetchTimetable() async {
+  Future<TimetableResponse> fetchTimetable(int semesterId) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("access_token");
 
@@ -20,7 +19,7 @@ class TimetableService {
     }
 
     final requestBody = {
-      "filter": {"hoc_ky": semester, "ten_hoc_ky": ""},
+      "filter": {"hoc_ky": semesterId, "ten_hoc_ky": ""},
       "additional": {
         "paging": {"limit": 100, "page": 1},
         "ordering": [
