@@ -6,10 +6,12 @@ class ExamScheduleResponse {
   ExamScheduleResponse({required this.scheduleList});
 
   factory ExamScheduleResponse.fromJson(Map<String, dynamic> json) {
-    final list = json['ds_lich_thi'] as List<dynamic>;
+    final list = json['ds_lich_thi'] as List<dynamic>? ?? [];
 
     return ExamScheduleResponse(
-      scheduleList: list.map((e) => ExamSchedule.fromJson(e)).toList(),
+      scheduleList: list
+          .map((e) => ExamSchedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

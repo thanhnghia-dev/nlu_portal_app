@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
+import 'package:nlu_portal_app/models/exam_schedule_model.dart';
+import 'package:nlu_portal_app/providers/schedule_provider.dart';
+import 'package:provider/provider.dart';
 
 class ScheduleItemsWidget extends StatefulWidget {
   const ScheduleItemsWidget({super.key});
@@ -9,52 +12,53 @@ class ScheduleItemsWidget extends StatefulWidget {
 }
 
 class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
-
   @override
   void initState() {
     super.initState();
-    // Provider.of<CourseProvider>(context, listen: false).loadCourses();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ScheduleProvider>().loadSchedules();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-  // final courseProvider = Provider.of<CourseProvider>(context);
-  // final subjects = courseProvider.subjects;
-  final subjects = 5;
-  final subjectName = "Thực tập lập trình trên thiết bị di động";
-  final subjectCode = "214293";
-  final classPeriod = "1-3";
-  final room = "RD203";
+    final provider = context.watch<ScheduleProvider>();
+
+    if (provider.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final schedules = provider.schedules;
+
+    if (schedules.isEmpty) {
+      return const Center(
+        child: Text(
+          'Chưa có lịch thi.',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+        ),
+      );
+    }
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: subjects,
+      itemCount: schedules.length,
       itemBuilder: (context, index) {
-        // final student = subjects[index];
+        final schedule = schedules[index];
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 2),
-          child: Column(
-            children: [
-              buildSubjectCard(
-                subjectName: subjectName,
-                subjectCode: subjectCode,
-                periodTime: classPeriod,
-                room: room,
-              ),
-            ],
-          ),
+          child: Column(children: [buildScheduleCard(schedule: schedule)]),
         );
       },
     );
   }
 
-  Widget buildSubjectCard({
-    required String subjectName,
-    required String subjectCode,
-    required String periodTime,
-    required String room,
-  }) {
+  Widget buildScheduleCard({required ExamSchedule schedule}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       child: Container(
@@ -76,7 +80,7 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              subjectName,
+              schedule.subjectName,
               style: const TextStyle(
                 fontSize: 17,
                 color: Colors.black,
@@ -84,9 +88,10 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
               ),
             ),
             SizedBox(height: 5),
-            buildDetailRow('Mã môn học :', subjectCode),
-            buildDetailRow('Tiết :', periodTime),
-            buildDetailRow('Phòng :', room),
+            buildDetailRow('Mã môn học :', schedule.subjectId),
+            buildDetailRow('Ngày thi :', schedule.examDate),
+            buildDetailRow('Tiết :', schedule.periodRange),
+            buildDetailRow('Phòng :', schedule.roomId),
           ],
         ),
       ),
@@ -100,10 +105,7 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
         children: [
           Text(
             '$label ',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
+            style: const TextStyle(fontSize: 16, color: Colors.black),
           ),
           Text(
             value,
@@ -117,5 +119,4 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
       ),
     );
   }
-
 }
