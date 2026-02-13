@@ -80,15 +80,14 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              schedule.subjectName,
+              "${schedule.subjectName} (${schedule.subjectId})",
               style: const TextStyle(
-                fontSize: 17,
+                fontSize: 20,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 5),
-            buildDetailRow('Mã môn học :', schedule.subjectId),
             buildDetailRow('Ngày thi :', schedule.examDate),
             buildDetailRow('Tiết :', schedule.periodRange),
             buildDetailRow('Phòng :', schedule.roomId),
@@ -105,12 +104,12 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
         children: [
           Text(
             '$label ',
-            style: const TextStyle(fontSize: 16, color: Colors.black),
+            style: const TextStyle(fontSize: 17, color: Colors.black),
           ),
           Text(
             value,
             style: const TextStyle(
-              fontSize: 17,
+              fontSize: 18,
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),

@@ -12,6 +12,7 @@ class SemesterResult {
   final String cumulativeCredits;
   final String semesterRank;
   final List<SubjectScore> subjectSoreList;
+  bool get isRevered => semesterId == "0";
 
   SemesterResult({
     required this.majorType,
@@ -28,18 +29,24 @@ class SemesterResult {
   });
 
   factory SemesterResult.fromJson(Map<String, dynamic> json) {
+    String parseString(dynamic value) {
+      if (value == null) return "0";
+      if (value.toString().trim().isEmpty) return "0";
+      return value.toString();
+    }
+
     return SemesterResult(
-      majorType: json['loai_nganh'],
-      semesterId: json['hoc_ky'],
-      semesterName: json['ten_hoc_ky'],
-      averageScore10: json['dtb_hk_he10'],
-      averageScore4: json['dtb_hk_he4'],
-      gpa10: json['dtb_tich_luy_he_10'],
-      gpa4: json['dtb_tich_luy_he_4'],
-      semesterCredits: json['so_tin_chi_dat_hk'],
-      cumulativeCredits: json['so_tin_chi_dat_tich_luy'],
-      semesterRank: json['xep_loai_tkb_hk'],
-      subjectSoreList: (json['ds_diem_mon_hoc'] as List<dynamic>? ?? [])
+      majorType: json['loai_nganh'] ?? 0,
+      semesterId: json['hoc_ky'] ?? '',
+      semesterName: json['ten_hoc_ky'] ?? '',
+      averageScore10: parseString(json['dtb_hk_he10']),
+      averageScore4: parseString(json['dtb_hk_he4']),
+      gpa10: parseString(json['dtb_tich_luy_he_10']),
+      gpa4: parseString(json['dtb_tich_luy_he_4']),
+      semesterCredits: parseString(json['so_tin_chi_dat_hk']),
+      cumulativeCredits: parseString(json['so_tin_chi_dat_tich_luy']),
+      semesterRank: json['xep_loai_tkb_hk'] ?? '',
+      subjectSoreList: (json['ds_diem_mon_hoc'] as List? ?? [])
           .map((e) => SubjectScore.fromJson(e))
           .toList(),
     );

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
+import 'package:nlu_portal_app/models/semester_result_model.dart';
+import 'package:nlu_portal_app/models/subject_score_model.dart';
 
 class ScoreItemsWidget extends StatelessWidget {
-  const ScoreItemsWidget({super.key});
+  final SemesterResult semesterResult;
+
+  const ScoreItemsWidget({super.key, required this.semesterResult});
 
   @override
   Widget build(BuildContext context) {
-    final scores = 5;
+    final scores = semesterResult.subjectSoreList;
 
     return Container(
       color: Colors.white,
@@ -29,26 +33,22 @@ class ScoreItemsWidget extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: scores,
+              itemCount: scores.length,
               itemBuilder: (context, index) {
+                final score = scores[index];
                 return Column(
                   children: [
-                    _buildScoreDetailCard(
-                      subjectName:
-                          'Thực tập lập trình trên thiết bị di động',
-                      subjectCode: '214293',
-                      credits: 3,
-                      score10: 9.0,
-                      score4: 4.0,
-                    ),
-                    if (index < scores - 1) const Divider(color: AppColors.primary),
+                    _buildScoreDetailCard(score: score),
+                    if (index < scores.length - 1)
+                      const Divider(color: AppColors.primary),
                   ],
                 );
               },
             ),
 
             /// STATISTIC
-            _buildStatisticCard(),
+            if (!semesterResult.isRevered)
+              _buildStatisticCard(semesterResult: semesterResult),
           ],
         ),
       ),
@@ -57,39 +57,30 @@ class ScoreItemsWidget extends StatelessWidget {
 
   // ================= SUBJECT =================
 
-  Widget _buildScoreDetailCard({
-    required String subjectName,
-    required String subjectCode,
-    required int credits,
-    required double score10,
-    required double score4,
-  }) {
+  Widget _buildScoreDetailCard({required SubjectScore score}) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            subjectName,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            score.subjectName,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _infoRow('Mã môn học:', subjectCode),
-              _infoRow('Số tín chỉ:', credits.toString()),
+              _infoRow('Mã môn học:', score.subjectId),
+              _infoRow('Số tín chỉ:', score.creditNumber.toString()),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _scoreRow('Điểm hệ 10:', score10),
-              _scoreRow('Điểm hệ 4:', score4),
+              _scoreRow('Điểm hệ 10:', score.finalScore10),
+              _scoreRow('Điểm hệ 4:', score.finalScore4),
             ],
           ),
         ],
@@ -99,23 +90,23 @@ class ScoreItemsWidget extends StatelessWidget {
 
   // ================= STATISTIC =================
 
-  Widget _buildStatisticCard() {
+  Widget _buildStatisticCard({required SemesterResult semesterResult}) {
     return Container(
       color: AppColors.borderContainer,
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
-        children: const [
-          _totalRow('Điểm TB học kỳ hệ 10:', '8.21'),
+        children: [
+          _totalRow('Điểm TB học kỳ hệ 10:', semesterResult.averageScore10),
           Divider(),
-          _totalRow('Điểm TB học kỳ hệ 4:', '3.46'),
+          _totalRow('Điểm TB học kỳ hệ 4:', semesterResult.averageScore4),
           Divider(),
-          _totalRow('Điểm TB tích lỹ hệ 10:', '6.76'),
+          _totalRow('Điểm TB tích lỹ hệ 10:', semesterResult.gpa10),
           Divider(),
-          _totalRow('Điểm TB tích lũy hệ 4:', '2.60'),
+          _totalRow('Điểm TB tích lũy hệ 4:', semesterResult.gpa4),
           Divider(),
-          _totalRow('Số tín chỉ đạt', '13'),
+          _totalRow('Số tín chỉ đạt:', semesterResult.semesterCredits),
           Divider(),
-          _totalRow('Số tín chỉ tích lũy', '159'),
+          _totalRow('Số tín chỉ tích lũy:', semesterResult.cumulativeCredits),
         ],
       ),
     );
@@ -126,23 +117,19 @@ class ScoreItemsWidget extends StatelessWidget {
   Widget _infoRow(String label, String value) {
     return Row(
       children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 16),
-        ),
+        Text(label, style: const TextStyle(fontSize: 16)),
         const SizedBox(width: 4),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
-  Widget _scoreRow(String label, double value) {
+  Widget _scoreRow(String label, String value) {
+    final parsed = double.tryParse(value);
+
     return Row(
       children: [
         Text(
@@ -155,11 +142,11 @@ class ScoreItemsWidget extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          value.toStringAsFixed(1),
-          style: const TextStyle(
+          parsed != null ? parsed.toStringAsFixed(1) : value,
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w900,
-            color: Colors.red,
+            color: parsed != null ? Colors.red : Colors.orange,
           ),
         ),
       ],
