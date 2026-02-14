@@ -1,4 +1,4 @@
-package com.example.nlu_portal_app
+package vn.edu.hcmuaf.nluportal
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -45,7 +45,6 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      shrinkWrap: true,
       itemCount: allTimetables.length,
       itemBuilder: (context, index) {
         final timetable = allTimetables[index];
@@ -106,12 +105,15 @@ class _TimetableItemsWidgetState extends State<TimetableItemsWidget> {
             '$label ',
             style: const TextStyle(fontSize: 16, color: Colors.black),
           ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              softWrap: true,
             ),
           ),
         ],

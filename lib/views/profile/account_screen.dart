@@ -6,6 +6,7 @@ import 'package:nlu_portal_app/views/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/views/profile/profile_screen.dart';
 import 'package:nlu_portal_app/views/widgets/switch_button_widget.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -195,7 +196,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               _buildAppVersion(
                                 icon: Icons.info_rounded,
                                 title: 'Phiên bản ứng dụng',
-                                version: '1.0.0',
                               ),
                             ],
                           ),
@@ -300,21 +300,28 @@ Widget _buildMenuItem({
 }
 
 // App version info
-Widget _buildAppVersion({
-  required IconData icon,
-  required String title,
-  required String version,
-}) {
-  return ListTile(
-    leading: Icon(icon, color: AppColors.primary),
-    title: Text(
-      title,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-    ),
-    trailing: Text(
-      version,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-    ),
+Widget _buildAppVersion({required IconData icon, required String title}) {
+  return FutureBuilder<PackageInfo>(
+    future: PackageInfo.fromPlatform(),
+    builder: (context, snapshot) {
+      String version = '';
+
+      if (snapshot.hasData) {
+        version = snapshot.data!.version;
+      }
+
+      return ListTile(
+        leading: Icon(icon, color: AppColors.primary),
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        trailing: Text(
+          version,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+      );
+    },
   );
 }
 

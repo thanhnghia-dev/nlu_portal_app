@@ -59,7 +59,7 @@ class ScoreItemsWidget extends StatelessWidget {
 
   Widget _buildScoreDetailCard({required SubjectScore score}) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -67,20 +67,28 @@ class ScoreItemsWidget extends StatelessWidget {
             score.subjectName,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+
+          const SizedBox(height: 4),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _infoRow('Mã môn học:', score.subjectId),
-              _infoRow('Số tín chỉ:', score.creditNumber.toString()),
+              Expanded(child: _infoRow('Mã môn học:', score.subjectId)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _infoRow('Số tín chỉ:', score.creditNumber.toString()),
+              ),
             ],
           ),
-          const SizedBox(height: 8),
+
+          const SizedBox(height: 4),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _scoreRow('Điểm hệ 10:', score.finalScore10),
-              _scoreRow('Điểm hệ 4:', score.finalScore4),
+              Expanded(child: _scoreRow('Điểm hệ 10:', score.finalScore10)),
+              const SizedBox(width: 10),
+              Expanded(child: _scoreRow('Điểm hệ 4:', score.finalScore4)),
             ],
           ),
         ],
@@ -117,11 +125,14 @@ class ScoreItemsWidget extends StatelessWidget {
   Widget _infoRow(String label, String value) {
     return Row(
       children: [
-        Text(label, style: const TextStyle(fontSize: 16)),
+        Flexible(child: Text(label, style: const TextStyle(fontSize: 16))),
         const SizedBox(width: 4),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        Flexible(
+          child: Text(
+            value,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );
@@ -132,12 +143,10 @@ class ScoreItemsWidget extends StatelessWidget {
 
     return Row(
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+        Flexible(
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         const SizedBox(width: 4),
