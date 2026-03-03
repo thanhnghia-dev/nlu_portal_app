@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:nlu_portal_app/app.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/utils/http_config.dart';
@@ -46,6 +47,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'NLU Portal',
       debugShowCheckedModeBanner: false,
+      
+      locale: const Locale('vi', 'VN'),
+
+      supportedLocales: const [Locale('vi', 'VN'), Locale('en', 'US')],
+
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
