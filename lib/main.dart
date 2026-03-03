@@ -4,6 +4,7 @@ import 'package:nlu_portal_app/app.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/utils/http_config.dart';
+import 'package:nlu_portal_app/providers/notification_provider.dart';
 import 'package:nlu_portal_app/providers/result_provider.dart';
 import 'package:nlu_portal_app/providers/schedule_provider.dart';
 import 'package:nlu_portal_app/providers/timetable_provider.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => ResultProvider()),
         ChangeNotifierProvider(create: (_) => TimetableProvider()),
         ChangeNotifierProvider(create: (_) => ScheduleProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: const MyApp(),
     ),
