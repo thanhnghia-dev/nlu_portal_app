@@ -33,7 +33,7 @@ class _ScheduleItemsWidgetState extends State<ScheduleItemsWidget> {
     if (schedules.isEmpty) {
       return const Center(
         child: Text(
-          'Chưa có lịch thi.',
+          'Chưa có lịch thi',
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w700,
