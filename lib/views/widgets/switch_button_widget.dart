@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,33 +32,43 @@ class _SwitchButtonWidgetState extends State<SwitchButtonWidget> {
     await prefs.setBool('switch_state', value);
   }
 
+  Future<bool> requestNotificationPermission() async {
+    if (Platform.isIOS) {
+      var status = await Permission.notification.request();
+      return status.isGranted;
+    }
+
+    if (Platform.isAndroid) {
+      final deviceInfo = await DeviceInfoPlugin().androidInfo;
+
+      if (deviceInfo.version.sdkInt >= 33) {
+        var status = await Permission.notification.request();
+        return status.isGranted;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Switch(
       value: isSwitched,
       onChanged: (value) async {
         if (value) {
-          var status = await Permission.notification.status;
+          bool granted = await requestNotificationPermission();
 
-          if (!status.isGranted) {
-            status = await Permission.notification.request();
-          }
-
-          if (status.isGranted) {
-            setState(() {
-              isSwitched = true;
-            });
+          if (granted) {
+            setState(() => isSwitched = true);
             _saveSwitchState(true);
           } else {
-            setState(() {
-              isSwitched = false;
-            });
+            setState(() => isSwitched = false);
             _saveSwitchState(false);
           }
         } else {
-          setState(() {
-            isSwitched = false;
-          });
+          setState(() => isSwitched = false);
           _saveSwitchState(false);
         }
       },

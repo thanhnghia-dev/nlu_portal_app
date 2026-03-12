@@ -60,10 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image(
               image: const AssetImage('assets/logo_nlu_70y.png'),
-              height: 300,
-              width: 300,
-              // height: 200,
-              // width: 200,
+              height: 250,
+              width: 250,
               fit: BoxFit.contain,
             ),
             // const SizedBox(height: 25),
@@ -74,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   'NLU',
                   style: TextStyle(
                     color: Colors.yellow,
-                    fontSize: 50,
+                    fontSize: 40,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -83,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Portal',
                   style: TextStyle(
                     color: Colors.yellow,
-                    fontSize: 50,
+                    fontSize: 40,
                     fontWeight: FontWeight.w900,
                   ),
                 ),

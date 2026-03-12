@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
-import 'package:nlu_portal_app/core/utils/overlay_toast.dart';
 import 'package:nlu_portal_app/providers/schedule_provider.dart';
 import 'package:nlu_portal_app/providers/semester_provider.dart';
 import 'package:nlu_portal_app/views/widgets/schedule_items_widget.dart';
@@ -14,11 +13,6 @@ class ExamScheduleScreen extends StatefulWidget {
 }
 
 class _ExamScheduleScreenState extends State<ExamScheduleScreen> {
-  // Reload Button
-  void _reloadButton() {
-    showOverlayToast(context, "Chờ xíu....");
-  }
-
   @override
   void initState() {
     super.initState();
@@ -48,12 +42,6 @@ class _ExamScheduleScreenState extends State<ExamScheduleScreen> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: _reloadButton,
-            icon: Icon(Icons.sync, size: 30),
-          ),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

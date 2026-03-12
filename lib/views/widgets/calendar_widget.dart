@@ -94,6 +94,25 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         eventLoader: (day) {
           return context.read<TimetableProvider>().getEventsForDay(day);
         },
+        onHeaderTapped: (focusedDay) async {
+          final picked = await showDatePicker(
+            context: context,
+            initialDate: _focusedDay,
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2100),
+            initialDatePickerMode: DatePickerMode.year,
+            locale: const Locale('vi', 'VN'),
+          );
+
+          if (picked != null) {
+            setState(() {
+              _focusedDay = picked;
+              _selectedDay = picked;
+            });
+
+            context.read<TimetableProvider>().setSelectedDate(picked);
+          }
+        },
       ),
     );
   }

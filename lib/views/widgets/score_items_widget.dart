@@ -125,12 +125,13 @@ class ScoreItemsWidget extends StatelessWidget {
   Widget _infoRow(String label, String value) {
     return Row(
       children: [
-        Flexible(child: Text(label, style: const TextStyle(fontSize: 16))),
+        Text(label, style: const TextStyle(fontSize: 16)),
         const SizedBox(width: 4),
-        Flexible(
+        Expanded(
           child: Text(
             value,
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
