@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nlu_portal_app/models/semester_result_model.dart';
+import 'package:nlu_portal_app/models/result_model.dart';
 import 'package:nlu_portal_app/services/result_service.dart';
 
 class ResultProvider with ChangeNotifier {

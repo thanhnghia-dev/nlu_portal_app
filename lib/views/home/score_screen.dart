@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
-import 'package:nlu_portal_app/models/semester_result_model.dart';
+import 'package:nlu_portal_app/models/result_model.dart';
 import 'package:nlu_portal_app/providers/result_provider.dart';
 import 'package:nlu_portal_app/views/widgets/score_items_widget.dart';
 import 'package:provider/provider.dart';
