@@ -3,6 +3,7 @@ import 'package:nlu_portal_app/core/theme/app_colors.dart';
 import 'package:nlu_portal_app/core/utils/waiting_dialog.dart';
 import 'package:nlu_portal_app/views/home/exam_schedule_screen.dart';
 import 'package:nlu_portal_app/views/home/score_screen.dart';
+import 'package:nlu_portal_app/views/home/training_program_screen.dart';
 
 class ExtensionsScreen extends StatefulWidget {
   const ExtensionsScreen({super.key});
@@ -55,8 +56,12 @@ class _ExtensionsScreenState extends State<ExtensionsScreen> {
             ),
             _buildMenuItem(
               icon: Icons.playlist_add_check_circle,
-              title: 'Thống kê điểm danh',
-              onTap: _waitingButton,
+              title: 'Chương trình đào tạo',
+              onTap:  () {
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(builder: (_) => const TrainingProgramScreen()),
+                );
+              },
             ),
             _buildMenuItem(
               icon: Icons.view_list_rounded,

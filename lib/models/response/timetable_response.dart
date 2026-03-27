@@ -1,4 +1,4 @@
-import 'package:nlu_portal_app/models/timetable_semester_model.dart';
+import 'package:nlu_portal_app/models/timetable_model.dart';
 
 class TimetableResponse {
   final List<TimetableSemester> timetableList;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/core/theme/app_colors.dart';
-import 'package:nlu_portal_app/models/semester_result_model.dart';
-import 'package:nlu_portal_app/models/subject_score_model.dart';
+import 'package:nlu_portal_app/models/result_model.dart';
 
 class ScoreItemsWidget extends StatelessWidget {
   final SemesterResult semesterResult;

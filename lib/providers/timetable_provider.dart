@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nlu_portal_app/models/timetable_model.dart';
-import 'package:nlu_portal_app/models/timetable_semester_model.dart';
 import 'package:nlu_portal_app/services/timetable_service.dart';
 
 class TimetableProvider with ChangeNotifier {
